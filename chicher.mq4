@@ -20,13 +20,26 @@ int OnInit()
 void OnDeinit(const int reason)
 {
    Print( "OnDeinit()" );
-   return;
 }
 
 void OnTick()
 {
-   double price = Bid;
-   Count++;
-   Print( "OnTick() ", Count, " price = ", price );
+   // calcCyclesBetweenTicks
+   int cycles = calcCyclesBetweenTicks();
+   
+   Print( "Cycles between ticks: ", cycles );
+}
+//+------------------------------------------------------------------+
+
+int calcCyclesBetweenTicks()
+{
+   int cycles = 0;
+   
+   while( !RefreshRates() )
+   {
+      cycles++;
+   }
+   
+   return cycles;
 }
 //+------------------------------------------------------------------+
