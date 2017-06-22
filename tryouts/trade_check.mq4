@@ -8,6 +8,8 @@
 #property version   "1.00"
 #property strict
 #property show_inputs
+
+#include "./../common/TradeErrorProcessor.mqh"
 //+------------------------------------------------------------------+
 
 enum TradeType { BUY_TRADE, SELL_TRADE }; 
@@ -34,10 +36,14 @@ void OnStart()
       0.01,             //volume
       Ask,              //price
       MaxSlippage,      //max slippage
-      Bid - ttype_coeff * StopLoss * Point,   //stop loss
+      //Bid - ttype_coeff * StopLoss * Point,   //stop loss
+      0,
       Bid + ttype_coeff * TakeProfit * Point    //take profit
       );
       
-   Print( "Order result: ", order_result, ", last error: ", GetLastError() );
+   if( order_result == -1 )
+   {
+      TradeErrorProcessor::notifyLastError();
+   }
 }
 //+------------------------------------------------------------------+
