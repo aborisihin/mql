@@ -22,23 +22,34 @@ extern int MaxSlippage; //Maximum slippage
 //+------------------------------------------------------------------+
 void OnStart()
 {
-   int cmd = -1;
-   if( TType == BUY_TRADE ) cmd = OP_BUY;
-   else if( TType == SELL_TRADE ) cmd = OP_SELL;
+   int order_type = -1;
+   double price = 0;
+   double stoploss = 0;
+   double takeprofit = 0;
    
-   int ttype_coeff = 0;
-   if( TType == BUY_TRADE ) ttype_coeff = 1;
-   else if( TType == SELL_TRADE ) ttype_coeff = -1;
+   if( TType == BUY_TRADE ) 
+   {
+      order_type = OP_BUY;
+      price = Ask;
+      stoploss = Bid - StopLoss * Point;
+      takeprofit = Bid + TakeProfit * Point;
+   }
+   else if( TType == SELL_TRADE )
+   {
+      order_type = OP_SELL;
+      price = Bid;
+      stoploss = Ask + StopLoss * Point;
+      takeprofit = Ask - TakeProfit * Point;
+   }
 
    int order_result = OrderSend(
-      Symbol(),         //current symbol
-      cmd,              //type
-      0.01,             //volume
-      Ask,              //price
-      MaxSlippage,      //max slippage
-      //Bid - ttype_coeff * StopLoss * Point,   //stop loss
-      0,
-      Bid + ttype_coeff * TakeProfit * Point    //take profit
+      Symbol(),
+      order_type,
+      0.01, //volume
+      price,
+      MaxSlippage,
+      stoploss,
+      takeprofit
       );
       
    if( order_result == -1 )
