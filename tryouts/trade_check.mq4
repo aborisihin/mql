@@ -10,11 +10,13 @@
 #property show_inputs
 
 #include "./../common/TradeErrorProcessor.mqh"
+#include "./../common/MarketData.mqh"
 //+------------------------------------------------------------------+
 
 enum TradeType { BUY_TRADE, SELL_TRADE }; 
 
 extern TradeType TType = BUY_TRADE; //Type of trade
+extern bool MinStops = true; //Use minimum stops
 extern int StopLoss; //Stop loss
 extern int TakeProfit; //Take profit
 extern int MaxSlippage; //Maximum slippage
@@ -27,19 +29,44 @@ void OnStart()
    double stoploss = 0;
    double takeprofit = 0;
    
+   MarketData market_data( Symbol() );
+   
+   if( MinStops )
+   {
+      Print( "Use minimal stops! stop_level = ", market_data.stop_level );
+   }
+      
    if( TType == BUY_TRADE ) 
    {
       order_type = OP_BUY;
       price = Ask;
-      stoploss = Bid - StopLoss * Point;
-      takeprofit = Bid + TakeProfit * Point;
+      
+      if( MinStops )
+      {
+         stoploss = Bid - (market_data.stop_level) * Point;
+         takeprofit = Bid + (market_data.stop_level) * Point;
+      }
+      else
+      {
+         stoploss = Bid - StopLoss * Point;
+         takeprofit = Bid + TakeProfit * Point;
+      }
    }
    else if( TType == SELL_TRADE )
    {
       order_type = OP_SELL;
       price = Bid;
-      stoploss = Ask + StopLoss * Point;
-      takeprofit = Ask - TakeProfit * Point;
+      
+      if( MinStops )
+      {
+         stoploss = Ask + (market_data.stop_level) * Point;
+         takeprofit = Ask - (market_data.stop_level) * Point;
+      }
+      else
+      {
+         stoploss = Ask + StopLoss * Point;
+         takeprofit = Ask - TakeProfit * Point;
+      }
    }
 
    int order_result = OrderSend(
