@@ -9,8 +9,8 @@
 #property strict
 #property show_inputs
 
-#include "./../common/TradeErrorProcessor.mqh"
-#include "./../common/MarketData.mqh"
+#include "./../common/info/TradeErrorProcessor.mqh"
+#include "./../common/info/MarketData.mqh"
 //+------------------------------------------------------------------+
 
 enum TradeType { BUY_TRADE, SELL_TRADE }; 
