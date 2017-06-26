@@ -69,7 +69,7 @@ void OnStart()
       }
    }
 
-   /*int order_result = OrderSend(
+   int order_result = OrderSend(
       Symbol(),
       order_type,
       0.01, //volume
@@ -81,7 +81,7 @@ void OnStart()
       
    if( order_result == -1 )
    {
-      TradeErrorProcessor::notifyLastError();
-   }*/
+      TradeErrorProcessor::notify( TradeErrorProcessor::getLastError() );
+   }
 }
 //+------------------------------------------------------------------+
