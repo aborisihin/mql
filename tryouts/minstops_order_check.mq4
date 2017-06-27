@@ -16,12 +16,10 @@ enum TradeType { BUY = OP_BUY, SELL = OP_SELL };
 
 extern TradeType TType = BUY; //Type of trade
 
-const double NeedVolume = 0.01;
-
 //+------------------------------------------------------------------+
 void OnStart()
 {
-   MinStopsOrder order( Symbol(), TType, NeedVolume );
+   MinStopsOrder order( Symbol(), TType, 0.01, 10 );
    order.tryOpen();
 }
 //+------------------------------------------------------------------+

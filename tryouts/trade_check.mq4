@@ -81,7 +81,7 @@ void OnStart()
       
    if( order_result == -1 )
    {
-      TradeErrorProcessor::notify( TradeErrorProcessor::getLastError() );
+      TradeErrorProcessor::notifyLastError();
    }
 }
 //+------------------------------------------------------------------+
