@@ -16,12 +16,15 @@
 
 //extern TradeType TType = BUY; //Type of trade
 
+extern int find_order_ticket = 0;
+
 //+------------------------------------------------------------------+
 void OnStart()
 {
    OrderController controller;
    
-   controller.collectOpenedOrders( Symbol() );
    controller.collectClosedOrders( Symbol() );
+   
+   Print( "Find order: ", find_order_ticket, " ", controller.findOrderByTicket(find_order_ticket) );
 }
 //+------------------------------------------------------------------+
