@@ -19,7 +19,8 @@ extern TradeType TType = BUY; //Type of trade
 //+------------------------------------------------------------------+
 void OnStart()
 {
-   MinStopsOrder order( Symbol(), TType, 0.01, 10 );
+   //MinStopsOrder order( Symbol(), TType, 0.01, 3 );
+   MinStopsOrder order( Symbol(), TType, 0, 3 );
    order.tryToOpen();
 }
 //+------------------------------------------------------------------+
