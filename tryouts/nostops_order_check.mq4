@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                         minstops_order_check.mq4 |
+//|                                          nostops_order_check.mq4 |
 //|                                               Borisikhin Aleksey |
 //|                                            a.borisihin@gmail.com |
 //+------------------------------------------------------------------+
@@ -9,7 +9,7 @@
 #property strict
 #property show_inputs
 
-#include "./../common/order/MinStopsOrder.mqh"
+#include "./../common/order/NoStopsOrder.mqh"
 //+------------------------------------------------------------------+
 
 enum TradeType { BUY = OP_BUY, SELL = OP_SELL }; 
@@ -19,8 +19,7 @@ extern TradeType TType = BUY; //Type of trade
 //+------------------------------------------------------------------+
 void OnStart()
 {
-   //MinStopsOrder order( Symbol(), TType, 0.01, 3 );
-   MinStopsOrder order( Symbol(), TType, 0, 3 );
+   NoStopsOrder order( Symbol(), TType );
    order.tryToOpen();
 }
 //+------------------------------------------------------------------+

@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                         minstops_order_check.mq4 |
+//|                                         deferred_order_check.mq4 |
 //|                                               Borisikhin Aleksey |
 //|                                            a.borisihin@gmail.com |
 //+------------------------------------------------------------------+
@@ -9,18 +9,21 @@
 #property strict
 #property show_inputs
 
-#include "./../common/order/MinStopsOrder.mqh"
+#include "./../common/order/DeferredOrder.mqh"
 //+------------------------------------------------------------------+
 
-enum TradeType { BUY = OP_BUY, SELL = OP_SELL }; 
+enum TradeType { BUY_LIMIT = OP_BUYLIMIT, 
+                 BUY_STOP = OP_BUYSTOP,
+                 SELL_LIMIT = OP_SELLLIMIT,
+                 SELL_STOP = OP_SELLSTOP }; 
 
-extern TradeType TType = BUY; //Type of trade
+extern TradeType TType = BUY_LIMIT; //Type of trade
 
 //+------------------------------------------------------------------+
 void OnStart()
 {
-   //MinStopsOrder order( Symbol(), TType, 0.01, 3 );
-   MinStopsOrder order( Symbol(), TType, 0, 3 );
+   double user_price = WindowPriceOnDropped();
+   DeferredOrder order( Symbol(), TType, user_price, 0 );
    order.tryToOpen();
 }
 //+------------------------------------------------------------------+
