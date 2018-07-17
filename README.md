@@ -1,1 +1,1 @@
-mql tryouts
+Tryouts in MQL
